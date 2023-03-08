@@ -1,0 +1,21 @@
+
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <!-- <link rel="stylesheet" href="localStorage_2_API.css"> -->
+  </head>
+  <body>
+    {% for room in rooms %}
+        <h1>Room: {{ room }}</h1>
+        {{ roomWithId }}
+        {{ roomUsers }}
+
+    {% endfor %}
+    <!-- {% for roomWithId in roomWithIds %}
+        <h1>Room name: '{{ roomWithId.name }}'</h1>
+        <h3>Room id:'{{ roomWithId.id }}'</h3>
+    {% endfor %} -->
+
+
+  </body>
+</html>
