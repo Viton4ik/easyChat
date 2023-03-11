@@ -1,21 +1,38 @@
+{% load static %}
 
 <!DOCTYPE HTML>
 <html>
   <head>
-    <!-- <link rel="stylesheet" href="localStorage_2_API.css"> -->
+    <link rel="stylesheet" href="{% static 'css/rooms.css' %}">
   </head>
   <body>
+
     {% for room in rooms %}
-        <h1>Room: {{ room }}</h1>
-        {{ roomWithId }}
-        {{ roomUsers }}
-
+    <!-- <h1>Room: <em>'{{ room }}'</em></h1> -->
+    <div id="room-name-container">
+      <span>Room: <em id="room-name-display-{{ room.id }}">'{{ room }}'</em></span>
+      <form id="edit-form-{{ room.id }}" style="display: none;">
+        <label for="new-room-name-{{ room.id }}">Put a new name for the room here:</label>
+        <input type="text" id="new-room-name-{{ room.id }}" name="new-room-name-{{ room.id }}" placeholder="{{ room }}">
+        <button type="submit">Save</button>
+        <button id="{{ room.id }}" class="btn cancel" type="reset">Cancel</button>
+      </form>
+    </div>
+        <button id="{{ room.id }}" class="btn edit-room">Edit Room</button>
     {% endfor %}
-    <!-- {% for roomWithId in roomWithIds %}
-        <h1>Room name: '{{ roomWithId.name }}'</h1>
-        <h3>Room id:'{{ roomWithId.id }}'</h3>
-    {% endfor %} -->
 
+    <p></p>
+    <div>
+      <form id="create-form" style="display: none;">
+        <label for="new-room-name">Set a name for the room here:</label>
+        <input type="text" id="new-room-name" name="new-room-name" placeholder="room name">
+        <button type="submit">Save</button>
+        <button class="btn cancel" type="reset">Cancel</button>
+      </form>
+      <button class="btn create-room">Create Room</button>
+    </div>
+    
 
+    <script type="text/javascript" src="{% static 'js/rooms.js' %}"></script>
   </body>
 </html>

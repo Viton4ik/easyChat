@@ -6,7 +6,7 @@ from .models import Chat, Message, UserProfile
 
 class ChatAdmin(admin.ModelAdmin):
     """ Admin panel upgrade """
-    list_display = ('name', )
+    list_display = ('id', 'name', )
     search_fields = ('name', )
     list_filter = ('name', )
 

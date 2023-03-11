@@ -13,10 +13,9 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpRe
 import json
 from rest_framework import viewsets
 from rest_framework import permissions            # https://www.django-rest-framework.org/api-guide/permissions/
-# from rest_framework.response import Response
+from rest_framework.response import Response
 import django_filters.rest_framework
 from chat.serializers import *
-# from chat.models import *
 
 
 # ===== rest_framework =====
@@ -78,9 +77,12 @@ def getChats(_):
     rooms = Chat.objects.all().values(
         'id',
         'name',
-        # 'users',
-        )
-    return HttpResponse(content=rooms, status=200)
+    )
+    # преобразовываем QuerySet в список словарей
+    rooms_list = list(rooms)
+    # преобразовываем список словарей в JSON-строку
+    rooms_json = json.dumps(rooms_list)
+    return HttpResponse(content=rooms_json, status=200, content_type='application/json')
 
 def getChat(_, pk):
     rooms = Chat.objects.filter(pk=pk).values(
@@ -137,13 +139,39 @@ def createMessage(request):
         return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 def editRoom(request, pk):
-    body = json.loads(request.body)
+    # try:
+    #     body = json.loads(request.body)
+    # except json.JSONDecodeError as e:
+    #     return JsonResponse({'error': 'Invalid JSON: {}'.format(str(e))}, status=400)
+
+
+    body = json.loads(request.body.decode('utf-8'))
+    
     room = Chat.objects.get(pk=pk)
+    print(body)
     for attr, value in body.items():
         setattr(room, attr, value)
     room.save()
-    data = {'name': room.name, 'users': room.users,}
+    data = {'name': room.name, 'users': room.users}
     return JsonResponse({'data': data}, status=200)
+
+# from rest_framework import status
+# from rest_framework.decorators import api_view
+
+# @api_view(['PUT'])
+# def editRoom(request, pk):
+#     try:
+#         chat = Chat.objects.get(pk=pk)
+#     except Chat.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+
+#     serializer = ChatSerializer(chat, data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 def editMessage(request, pk):
     body = json.loads(request.body)
