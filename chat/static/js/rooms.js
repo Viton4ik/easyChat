@@ -1,5 +1,6 @@
 
 const buttons = document.querySelectorAll('.edit-room')
+const btnsDeleteRoom = document.querySelectorAll('.delete-room')
 const btnCreateRoom = document.querySelector('.create-room')
 const resetBtns = document.querySelectorAll('.cancel')
 
@@ -30,10 +31,15 @@ function showEditForm(editForm) {
 // reset button handler
 resetBtns.forEach(resetBtn => {
   resetBtn.addEventListener('click', () => {
-    // get the form relate to its id
-    const editForm = document.querySelector(`#edit-form-${resetBtn.id}`)
-    // hid it
-    hideEditForm(editForm)
+    if (resetBtn.id) {
+      // if button is editRoom
+      const editForm = document.querySelector(`#edit-form-${resetBtn.id}`)
+      hideEditForm(editForm)
+    } else {
+      // if button is createRoom
+      const createForm = document.querySelector(`#create-form`)
+      hideEditForm(createForm)
+    }
   })
 })
 
@@ -48,7 +54,7 @@ buttons.forEach(button => {
     // submit button handler
     editForm.addEventListener('submit', function(event) {
     // stop submitting the form
-    event.preventDefault(); 
+    event.preventDefault()
 
     // get form's tags
     const roomNameDisplay = document.querySelector(`#room-name-display-${button.id}`)
@@ -93,98 +99,82 @@ buttons.forEach(button => {
 })
 })
 
+//Delete room button handler
+btnsDeleteRoom.forEach(button => {
+  button.addEventListener('click', () => {
+      console.log('button.id:', button.id)
+      // get the form relate to its id
+      const confirmationForm = document.querySelector(`#confirmation-form-${button.id}`)
+      // show it
+      showEditForm(confirmationForm)
+      const confirmButton = document.querySelector(`#confirm-button-${button.id}`)
+      const cancelButton = document.querySelector(`#cancel-button-${button.id}`)
 
-// btnEditRoom.addEventListener('click', function updateObject(buttonId, updatedValue) {
-//     // Retrieve the existing object from the server
-//     fetch(`http://127.0.0.1:8000/chat/api-auth/room/${buttonId}/`)
-//       .then(response => response.json())
-//       .then(object => {
-//         // Modify the necessary attribute value
-//         object.name = prompt()
-//         // object.name = updatedValue;
-//         // Send the updated object back to the server
-//         fetch(`http://127.0.0.1:8000/chat/api-auth/room/${buttonId}/`, {
-//           method: 'PUT',
-//           headers: {
-//             'Content-Type': 'application/json',
-//             'X-CSRFToken': csrf_token(),
-//           },
-//           body: JSON.stringify(object),
-//         })
-//         .then(response => {
-//           if (response.ok) {
-//             console.log('Object updated successfully');
-//           } else {
-//             console.log('Object update failed');
-//           }
-//         })
-//         .catch(error => console.log('Error:', error));
-//       })
-//       .catch(error => console.log('Error:', error));
-// })
+      confirmButton.addEventListener('click', function() {
+          // API handler
+          fetch(`http://127.0.0.1:8000/chat/api/deleteChat/${button.id}`)
+          .then(response => {
+            if (response.ok) {
+              console.log('Object deleted successfully')
+              // refresh the page
+              location.reload()
+            } else {
+              console.log('Object deleting failed')
+            }
+          })
+          .catch(error => console.log('Error:', error))
+      })
+      cancelButton.addEventListener('click', function() {
+        hideEditForm(confirmationForm)
+        })
+      })
+    })
+
+const createForm = document.querySelector(`#create-form`)
+const newRoomNameInput = document.querySelector(`#new-room-name`)
+const userId = document.getElementById(`user-id`) // get user id tag 
+
+// console.log(userId.textContent) // get user id
 
 //Create room button handler
-
 btnCreateRoom.addEventListener('click', () => {
-  console.log('button.id:', button.id)
-  // get the form relate to its id
-  const editForm = document.querySelector(`#edit-form-${button.id}`)
-  // show it
-  showEditForm(editForm)
+  // show the create form
+  showEditForm(createForm)
   // submit button handler
-  editForm.addEventListener('submit', function(event) {
+  createForm.addEventListener('submit', function(event) {
   // stop submitting the form
-  event.preventDefault(); 
-
-  // get form's tags
-  const roomNameDisplay = document.querySelector(`#room-name-display-${button.id}`)
-  const newRoomNameInput = document.querySelector(`#new-room-name-${button.id}`)
-  //set a new name for the specific room
-  const newRoomName = newRoomNameInput.value; 
+  event.preventDefault()
+  //set a new name for new room
+  const newRoomName = newRoomNameInput.value
+  console.log(newRoomName)
 
   // API handler
-  // retrieve the existing object from the server
-  fetch(`http://127.0.0.1:8000/chat/api-auth/room/${button.id}/`)
-    .then(response => response.json())
-    .then(object => {
-      // modify the necessary attribute value
-      // object.name = prompt(`new a name for the room '${object.name}'`)
-      object.name = newRoomName
-      // refresh the name of the room on the page
-      roomNameDisplay.textContent = `'${newRoomName}'`
-      // send the updated object back to the server
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrf_token(),
-        },
-        body: JSON.stringify(object),
-        }
-      fetch(`http://127.0.0.1:8000/chat/api-auth/room/${button.id}/`, options)
-      .then(response => {
-        if (response.ok) {
-          console.log('Object updated successfully')
-          // refresh the page
-          // location.reload()
-        } else {
-          console.log('Object update failed')
-        }
-      })
-      .catch(error => console.log('Error:', error))
-    })
-    .catch(error => console.log('Error:', error))
-    // hide the form
-    hideEditForm(editForm); 
+  const object = {
+    name: newRoomName,
+    users: [`http://127.0.0.1:8000/chat/api-auth/user/${userId.textContent}/`]
+  }
+  console.log(JSON.stringify(object))
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrf_token(),
+    },
+    body: JSON.stringify(object),
+    }
+  fetch(`http://127.0.0.1:8000/chat/api-auth/room/`, options)
+  .then(response => {
+    if (response.ok) {
+      console.log('Object updated successfully')
+      // refresh the page
+      location.reload()
+    } else {
+      console.log('Object update failed')
+    }
   })
+  .catch(error => console.log('Error:', error))
+  // hide the form
+  hideEditForm(createForm)
 })
-
-
-
-
-// btnCreateRoom.addEventListener('click', () => {
-
-
-
-//   })
+})
 

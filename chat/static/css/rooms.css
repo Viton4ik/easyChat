@@ -1,13 +1,97 @@
-/* #room-name-container {
-  position: relative;
+
+.room-list {
+  gap: 20px;
+  padding: 20px 20px 20px 20px;
 }
 
-#edit-form {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 10px;
-} */
+.room {
+  display: inline-block;
+  padding: 30px;
+  width: 400px;
+  margin-right: 20px;
+  margin-bottom: 30px;
+  box-shadow: 20px 25px 10px rgba(77, 74, 74, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #86d6ee;
+}
+
+@media (max-width: 768px) {
+  .room {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+} 
+
+.btn {
+  background-color: #92b5da;
+  border: none;
+  color: #13394b;
+  padding: 10px 20px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: 1px solid rgb(27, 26, 26);
+  box-shadow: 10px 15px 10px rgba(77, 74, 74, 0.5);
+  margin-right: 5px;
+}
+
+.input {
+  background-color: #d6dce0;
+  border: none;
+  color: #232729;
+  padding: 10px 20px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: 1px solid rgb(27, 26, 26);
+  box-shadow: 10px 15px 10px rgba(77, 74, 74, 0.5);
+  margin-right: 5px;
+  margin-top: 10px;
+}
+
+.hiden-title {
+  font-size: 15px;
+  font-weight: bold;
+  /* margin: 10px; */
+  padding: 10px 0px 10px 0px;
+}
+
+.hiden-form {
+  outline: 1px solid rgb(27, 26, 26); 
+  padding: 5px 5px 5px 5px;
+  border-radius: 5px;
+  box-shadow: 10px 15px 10px rgba(77, 74, 74, 0.5);
+  margin-top: 10px;
+  background-color: #7cb3ee;
+}
+
+.top-bar {
+  background-color: #7cb3ee;
+  color: #fff;
+  padding: 10px 10px 10px 20px;
+  display: flex;                    /* для расположения элементов в строку */
+  justify-content: space-between;   /* Выравнивание элементов по краям */
+  align-items: center;              /* Выравнивание элементов по вертикали */
+  box-shadow: 10px 15px 10px rgba(77, 74, 74, 0.5);
+  border-radius: 10px;
+  text-align: left; 
+}
+
+.top-bar-user {
+  flex-grow: 1;    /* Растягиваем элемент на всю доступную ширину */
+  margin-left: 20px; 
+}
+
+.top-delete-form {
+  margin-right: 30px; 
+}
+
+.delete-form {
+  display: inline-block;
+  padding: 30px;
+  width: 400px;
+  margin-right: 20px;
+  margin-bottom: 30px;
+  box-shadow: 20px 25px 10px rgba(77, 74, 74, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #86d6ee;
+}

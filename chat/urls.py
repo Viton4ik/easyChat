@@ -13,6 +13,9 @@ router.register(r'message', views.MessageViewset)
 router.register(r'userProfile', views.UserProfileSerializer)
 router.register(r'user', views.UserViewset)
 
+# another way to create room
+# from .views import ChatCreateView
+
 
 urlpatterns = [
 
@@ -30,6 +33,9 @@ urlpatterns = [
    path('api/editMessage/<int:pk>', editMessage),
    path('api/deleteMessage/<int:pk>', deleteMessage),
    path('api/deleteChat/<int:pk>', deleteChat),
+
+   # another way to create room
+   # path('chat/create/', ChatCreateView.as_view(), name='chat_create'), 
 
    # rest_framework_routers
    #  path('', include(router.urls)),

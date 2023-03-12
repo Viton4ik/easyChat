@@ -17,6 +17,12 @@ from rest_framework.response import Response
 import django_filters.rest_framework
 from chat.serializers import *
 
+# another way to create room (usless now)
+from rest_framework.generics import CreateAPIView
+class ChatCreateView(CreateAPIView):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
+#############################
 
 # ===== rest_framework =====
 
@@ -72,7 +78,8 @@ class UserViewset(viewsets.ModelViewSet):
 # ==========================
 
 
-# ===== REST API =====
+# ===== REST API ===== 
+# usles now
 def getChats(_):
     rooms = Chat.objects.all().values(
         'id',
@@ -83,7 +90,7 @@ def getChats(_):
     # преобразовываем список словарей в JSON-строку
     rooms_json = json.dumps(rooms_list)
     return HttpResponse(content=rooms_json, status=200, content_type='application/json')
-
+# usles now
 def getChat(_, pk):
     rooms = Chat.objects.filter(pk=pk).values(
         'id',
@@ -91,7 +98,7 @@ def getChat(_, pk):
         'users',
         )
     return HttpResponse(content=rooms, status=200)
-
+# usles now
 def getMessages(_):
     messages = Message.objects.all().values(
         'id',
@@ -101,7 +108,7 @@ def getMessages(_):
         'createTime',
         )
     return HttpResponse(content=messages, status=200)
-
+# usles now
 def getMessage(_, pk):
     message = Message.objects.filter(pk=pk).values(
         'id',
@@ -111,7 +118,7 @@ def getMessage(_, pk):
         'createTime',
         )
     return HttpResponse(content=message, status=200)
-
+# usles now
 def createRoom(request):
     if request.method == 'POST':
     # body = json.loads(request.body.decode('utf-8'))
@@ -124,7 +131,7 @@ def createRoom(request):
     else:
         # return HttpResponseNotAllowed(['POST'])
         return JsonResponse({'error': 'Method not allowed'}, status=405)
-
+# usles now
 def createMessage(request):
     if request.method == 'POST':
     # body = json.loads(request.body.decode('utf-8'))
@@ -137,7 +144,7 @@ def createMessage(request):
         return HttpResponse(content=newMessage, status=201)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
-
+# usles now
 def editRoom(request, pk):
     # try:
     #     body = json.loads(request.body)
@@ -172,7 +179,7 @@ def editRoom(request, pk):
     
 #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+# usles now
 def editMessage(request, pk):
     body = json.loads(request.body)
     message = Message.objects.get(pk=pk)
@@ -181,7 +188,7 @@ def editMessage(request, pk):
     message.save()
     data = {'chat': message.chat, 'user': message.user, 'content': message.content,}
     return JsonResponse({'data': data}, status=200)
-
+# usles now
 def deleteMessage(_, pk):
     message_ = str(Message.objects.get(pk=pk))
     message = Message.objects.get(pk=pk).delete()
@@ -200,8 +207,9 @@ def deleteChat(_, pk):
 def getRooms(request):
     roomWithIds=Chat.objects.filter().values('id', "name",)
     rooms = Chat.objects.all()
+    user = request.user
 
-    return render(request, 'chat/rooms.html', {'rooms': rooms, 'roomWithIds': roomWithIds, })
+    return render(request, 'chat/rooms.html', {'rooms': rooms, 'roomWithIds': roomWithIds, user : 'user', })
 
 
 def getRoom(request, pk):
