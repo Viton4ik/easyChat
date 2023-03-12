@@ -152,6 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # разрешить обращение к серверу из любых источников
 # CORS_ALLOW_ALL_ORIGINS = True
 
+SITE_URL = "http://127.0.0.1:8000"
 
 # CSRF_COOKIE_SECURE = False
 

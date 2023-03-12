@@ -1,23 +1,52 @@
 
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <!-- <link rel="stylesheet" href="localStorage_2_API.css"> -->
-  </head>
-  <body>
-    <h2>Room: {{ room.name }}</h2>
-    <h3>Participants: {{ users }}</h3>
-    
-    <div class="box messages" id="chat-messages">
-        Messages will be displayed here...
+{% extends 'default.html' %}
+
+{% load static %}
+
+{% block room %}
+<p></p>
+<div class="top-bar">
+  <div class="top-bar-user">
+  <h2 style="text-align: center; color: rgb(7, 24, 97);">
+    Room: <em>'{{ room.name }}'</em>
+  </h2>
+  </div>
+</div>
+
+<p></p>
+
+<div class="chat-container">
+  <div class="chat-members">
+    <h3>Participants:</h3>
+
+    <ul class="member-list">
+      <li><em>
+        {% for user in users %}
+        <p style="color: rgb(53, 12, 148); ">'{{ user }}'</p>
+        {% endfor %}
+      </em></li>
+    </ul>
+
+  </div>
+  <div class="chat-window">
+    <div class="chat-header">
+      <h3>Chat</h3>
+      <button class="close-btn">&times;</button>
     </div>
+    <div class="chat-body"></div>
+    <div class="chat-footer">
+      <div class="input-wrapper">
+        <input type="text" placeholder="Your message...">
+        <button id="send-btn">Send</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-    <input type="text" name="content" id="chat-message-input" class="input" placeholder="Your message...">
-</div>
-
-        <button class="button" id="chat-message-submit">Submit</button>
+  <script type="text/javascript" src="{% static 'js/room.js' %}"></script>
+{% endblock room %}
 
 
-  </body>
-</html>
+{% block avatar %}
+<img class="logo" src="{{ avatar }}">
+{% endblock avatar %}

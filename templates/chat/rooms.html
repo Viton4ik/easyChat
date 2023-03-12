@@ -1,54 +1,57 @@
+{% extends 'default.html' %}
+
 {% load static %}
 
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <link rel="stylesheet" href="{% static 'css/rooms.css' %}">
-  </head>
-  <body>
-  <div class="top-bar">
-    <div class="top-bar-user">
-    <h3>User: <em>'{{ user }}'</em><em id="user-id" style="display: none;">{{ user.id }}</em></h3>
-    </div>
-    <div class="top-delete-form">
-      <form id="create-form" style="display: none;">
-        <label for="new-room-name">Set a name for the room here:</label>
-        <input class="input" type="text" id="new-room-name" name="new-room-name" placeholder="room name">
-        <button class="btn" type="submit">Save</button>
-        <button class="btn cancel" type="reset">Cancel</button>
-      </form>
-      <button class="btn create-room">Create Room</button>
-    </div>
-  </div>
 
-  <div class="room-list" >
-    {% for room in rooms %}
-    <div class="room" >
-
-    <div id="room-name-container">
-      <span >Room: <em id="room-name-display-{{ room.id }}">'{{ room }}'</em></span>
-      <form id="edit-form-{{ room.id }}" style="display: none;">
-        <!-- <label class="hiden-title" for="new-room-name-{{ room.id }}">Put a new name for the room here:</label> -->
-        <input class="input" type="text" id="new-room-name-{{ room.id }}" name="new-room-name-{{ room.id }}" placeholder="New name for the room...">
-        <button class="btn" type="submit">Save</button>
-        <button id="{{ room.id }}" class="btn cancel" type="reset">Cancel</button>
-      </form>
-    </div>
-    <div class="hiden-form" id="confirmation-form-{{ room.id }}" style="display: none;">
-      <div class="hiden-title">Are you sure you want to delete this room?</div>
-      <button class="btn" id="confirm-button-{{ room.id }}">Delete</button>
-      <button class="btn" id="cancel-button-{{ room.id }}">Cancel</button>
-      
-    </div>
-    <p></p>
-        <button id="{{ room.id }}" class="btn edit-room">Edit Room</button>
-        <button id="{{ room.id }}" class="btn delete-room">Delete Room</button>
-        <p></p>
-    </div>
-    {% endfor %}
+{% block rooms %}
+<div class="room-list" >
+  {% for room in rooms %}
+  <div class="room">
+  <div id="room-name-container">
+    <span >Room: <em id="room-name-display-{{ room.id }}">'{{ room }}'</em></span>
+     <form id="edit-form-{{ room.id }}" style="display: none;">
+      <!-- <label class="hiden-title" for="new-room-name-{{ room.id }}">Put a new name for the room here:</label> -->
+      <input class="input" type="text" id="new-room-name-{{ room.id }}" name="new-room-name-{{ room.id }}" placeholder="New name for the room...">
+      <button class="btn" type="submit">Save</button>
+      <button id="{{ room.id }}" class="btn cancel" type="reset">Cancel</button>
+    </form>
   </div>
-    <p></p>
+  <div class="hiden-form" id="confirmation-form-{{ room.id }}" style="display: none;">
+    <div class="hiden-title">Are you sure you want to delete this room?</div>
+    <button class="btn" id="confirm-button-{{ room.id }}">Delete</button>
+    <button class="btn" id="cancel-button-{{ room.id }}">Cancel</button>
     
-    <script type="text/javascript" src="{% static 'js/rooms.js' %}"></script>
-  </body>
-</html>
+  </div>
+  <p></p>
+      <button id="{{ room.id }}" class="btn edit-room">Edit Room</button>
+      <button id="{{ room.id }}" class="btn delete-room">Delete Room</button>
+      <a href="{% url 'getRoom' room.id %}">
+        <button id="{{ room.id }}" class="btn enter-room">Open Room</button>
+      </a>
+      <p></p>
+  </div>
+  {% endfor %}
+</div>
+  <p></p>
+  
+  <script type="text/javascript" src="{% static 'js/rooms.js' %}"></script>
+{% endblock rooms %}
+
+
+{% block createRoom %}
+<div class="top-delete-form">
+  <form id="create-form" style="display: none;">
+    <label for="new-room-name">Set a name for the room here:</label>
+    <input class="input" type="text" id="new-room-name" name="new-room-name" placeholder="room name">
+    <button class="btn" type="submit">Save</button>
+    <button class="btn cancel" type="reset">Cancel</button>
+  </form>
+  <button class="btn create-room">Create Room</button>
+</div>
+{% endblock createRoom %}
+
+
+{% block avatar %}
+<img class="logo" src="{{ avatar }}">
+{% endblock avatar %}
+

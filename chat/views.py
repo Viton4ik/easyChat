@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 
 from pprint import pprint
 
+from django.conf import settings
+
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseNotAllowed
 
 # from django.urls import reverse
@@ -16,6 +18,7 @@ from rest_framework import permissions            # https://www.django-rest-fram
 from rest_framework.response import Response
 import django_filters.rest_framework
 from chat.serializers import *
+
 
 # another way to create room (usless now)
 from rest_framework.generics import CreateAPIView
@@ -208,8 +211,21 @@ def getRooms(request):
     roomWithIds=Chat.objects.filter().values('id', "name",)
     rooms = Chat.objects.all()
     user = request.user
+    print('user:', user)
+    print('user.id:', user.id)
 
-    return render(request, 'chat/rooms.html', {'rooms': rooms, 'roomWithIds': roomWithIds, user : 'user', })
+    userProfile = UserProfile.objects.get(user=user)
+    # print('avatar:', userProfile.avatar.url)
+    try:
+        avatar = userProfile.avatar.url
+    except:
+        avatar = '/media/avatars/default.png'
+
+    avatar_full_url = settings.SITE_URL + avatar
+    print('avatar_full_url:', avatar_full_url)
+
+    return render(request, 'chat/rooms.html', {'rooms': rooms, 'roomWithIds': roomWithIds, 'user' : user, 'avatar' : avatar, 'avatar_full_url' : avatar_full_url, })
+
 
 
 def getRoom(request, pk):
@@ -218,4 +234,10 @@ def getRoom(request, pk):
     QuerySetUsers = User.objects.filter(chats=pk).values_list('username', flat=True)
     users = list(QuerySetUsers)
 
-    return render(request, 'chat/room.html', {'room': room, 'users' : users})
+    userProfile = UserProfile.objects.get(user=request.user)
+    try:
+        avatar = userProfile.avatar.url
+    except:
+        avatar = '/media/avatars/default.png'
+
+    return render(request, 'chat/room.html', {'room': room, 'users' : users, 'avatar' : avatar,})

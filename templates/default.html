@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+  <body>
+  <div class="top-bar">
+    <div class="logo">
+        {% block avatar %}{% endblock avatar %}
+    </div>
+    <div class="top-bar-user">
+    <h3>
+        User: <em>'{{ user }}'</em>
+    </h3>
+    </div>
+
+    {% block createRoom %}{% endblock createRoom %}
+  </div>
+  {% block rooms %}{% endblock rooms %}
+  {% block room %}{% endblock room %}
+
+  </body>
+</html>

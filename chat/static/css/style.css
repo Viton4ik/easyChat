@@ -16,6 +16,18 @@
   background-color: #86d6ee;
 }
 
+.room-area {
+  /* display: inline-block; */
+  padding: 30px;
+  /* width: 400px; */
+  margin-right: 20px;
+  margin-bottom: 30px;
+  box-shadow: 20px 25px 10px rgba(77, 74, 74, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #86d6ee;
+}
+
 @media (max-width: 768px) {
   .room {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -94,4 +106,123 @@
   border-radius: 10px;
   overflow: hidden;
   background-color: #86d6ee;
+}
+
+
+.logo {
+  /* flex-grow: 10;  */
+  height: 40px;
+  width: 40px;
+  border-radius: 15px;
+}
+
+
+
+
+.chat-container {
+  display: flex;
+  flex-direction: row;
+  height: 500px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  box-shadow: 20px 25px 10px rgba(77, 74, 74, 0.5);
+  border-radius: 10px;
+}
+
+.chat-members {
+  width: 200px;
+  border-right: 1px solid #ccc;
+  padding: 10px;
+}
+
+.chat-members h3 {
+  margin: 0;
+  color: rgb(53, 12, 148); 
+}
+
+.member-list {
+  list-style: none;
+  padding: 0;
+}
+
+.member-list li {
+  margin-bottom: 5px;
+}
+
+.chat-window {
+  flex-grow: 1;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.chat-header {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-top-right-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-header h3 {
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.chat-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.chat-footer {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-wrapper input[type="text"] {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.input-wrapper button {
+  /* background-color: #4CAF50; */
+  background-color: #7cb3ee;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 5px 10px;
+  margin-left: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.input-wrapper button:hover {
+  /* background-color: #3e8e41; */
+  background-color: #142e75;
 }
