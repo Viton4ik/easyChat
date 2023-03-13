@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     # my app
     'chat',
 
+    # webSocket
+    'channels',
+
     # site in admin panel
     'django.contrib.sites',
 
@@ -87,6 +90,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Project.wsgi.application'
 
+# WebSocket
+ASGI_APPLICATION = "djangochat.asgi.application"
+
+# Instead of using something like Redis or similar, we're just going to use the servers memory for the messages
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -170,3 +182,13 @@ REST_FRAMEWORK = {
 #        'rest_framework.permissions.IsAuthenticated',
 #    ]
 }
+
+
+
+# the first page after Authentication
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = "/chat/rooms/"
+
+# the first page after log out
+# LOGOUT_REDIRECT_URL = "/login/"
+# ACCOUNT_LOGOUT_REDIRECT_URL = "/login"

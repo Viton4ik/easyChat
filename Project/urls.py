@@ -27,6 +27,9 @@ urlpatterns = [
     # add chat urls patterns
     path('chat/', include('chat.urls')),
 
+    # accounts application
+    path("", include("accounts.urls")),              
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # add MEDIA
 
 

@@ -46,6 +46,22 @@
   margin-right: 5px;
 }
 
+  /* Трясем элемент при наведении */
+  .btn:hover {
+    animation: 1.0s ease-in-out 0s normal none infinite running trambling-animation;
+}
+@keyframes trambling-animation {
+    0%, 50%, 100% {
+        transform: rotate(0deg);
+    }
+    10%, 30% {
+        transform: rotate(-3deg);
+    }
+    20%, 40% {
+        transform: rotate(3deg);
+    }
+}
+
 .input {
   background-color: #d6dce0;
   border: none;
@@ -92,8 +108,12 @@
   margin-left: 20px; 
 }
 
-.top-delete-form {
+.logout-btn {
   margin-right: 30px; 
+}
+
+.top-delete-form {
+  margin-right: 10px; 
 }
 
 .delete-form {

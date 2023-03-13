@@ -15,11 +15,25 @@
         User: <em>'{{ user }}'</em>
     </h3>
     </div>
-
     {% block createRoom %}{% endblock createRoom %}
+    
+    {% if request.user.is_authenticated %}
+    <div class="logout-btn">
+      <a href="{% url 'logout' %}"><button class="btn logout">Logout</button></a>
+    </div>
+    {% else %}
+    <div class="logout-btn">
+      <a href="{% url 'signup' %}"><button class="btn signup">Sign up</button></a>
+    </div>
+    {% endif %}
+
+
+
   </div>
   {% block rooms %}{% endblock rooms %}
   {% block room %}{% endblock room %}
+  {% block signup %}{% endblock signup %}
+  {% block login %}{% endblock login %}
 
   </body>
 </html>

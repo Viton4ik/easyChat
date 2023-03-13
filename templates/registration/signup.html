@@ -1,0 +1,25 @@
+{% extends 'default.html' %}
+
+{% load static %}
+
+{% block signup %}
+<form method="post">
+    {% csrf_token %} 
+
+    <!-- {{ form.as_p }} -->
+    <p>Username: {{ form.username }}<h6><em>(Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.)</em></h6></p>
+
+    <p>Password: </p>
+    <p>{{ form.password1 }}</p>
+
+
+    <p> Password confirmation:</p>
+    <p>{{ form.password2 }}</p>
+    <p> <h6><em>- Your password can’t be too similar to your other personal information.</em></h6>
+        <h6><em>- Your password must contain at least 8 characters.</em></h6>
+        <h6><em>- Your password can’t be a commonly used password.<em></h6>
+        <h6><em>- Your password can’t be entirely numeric.<em></h6></p>
+    <input type="submit" class="btn signup" value="Sing up">
+</form>
+{% endblock signup %}
+

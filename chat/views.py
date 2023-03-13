@@ -214,9 +214,9 @@ def getRooms(request):
     print('user:', user)
     print('user.id:', user.id)
 
-    userProfile = UserProfile.objects.get(user=user)
-    # print('avatar:', userProfile.avatar.url)
     try:
+        userProfile = UserProfile.objects.get(user=user)
+        # print('avatar:', userProfile.avatar.url)
         avatar = userProfile.avatar.url
     except:
         avatar = '/media/avatars/default.png'
@@ -233,9 +233,9 @@ def getRoom(request, pk):
 
     QuerySetUsers = User.objects.filter(chats=pk).values_list('username', flat=True)
     users = list(QuerySetUsers)
-
-    userProfile = UserProfile.objects.get(user=request.user)
+    
     try:
+        userProfile = UserProfile.objects.get(user=request.user)
         avatar = userProfile.avatar.url
     except:
         avatar = '/media/avatars/default.png'
