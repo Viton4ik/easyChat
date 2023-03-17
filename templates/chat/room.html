@@ -4,12 +4,27 @@
 {% load static %}
 
 {% block room %}
+<em id="user-id" style="display: none;">{{ user.id }}</em>
+<em id="room-id" style="display: none;">{{ room.id }}</em>
 <p></p>
 <div class="top-bar">
   <div class="top-bar-user">
   <h2 style="text-align: center; color: rgb(7, 24, 97);">
     Room: <em>'{{ room.name }}'</em>
   </h2>
+  </div>
+  <div class="logout-btn">
+    <a href="/chat/rooms/">
+    <button class="btn leave-room">Leave Room</button>
+    </a>
+
+    <div class="hiden-form" id="confirmation-form" style="display: none;">
+      <div class="hiden-title">Are you sure?</div>
+      <button class="btn" id="yes-button">Yes</button>
+      <button class="btn" id="no-button">No</button>
+    </div>
+
+    <button class="btn forgot-room">Forgot Room</button>
   </div>
 </div>
 
@@ -33,16 +48,31 @@
       <h3>Chat</h3>
       <button class="close-btn">&times;</button>
     </div>
-    <div class="chat-body"></div>
+
+    <div class="chat-body" id="chat-body">
+      <!-- JS result will be here  -->
+      {% for message in messages %}
+      <div class="chat-messages" id="chat-messages">
+        <p style="font-weight: bold;">{{ message.user.username }}</p>
+        <p>{{ message.content }}</p>
+        <p class="date" id="date"><em>{{ message.createTime }}</em></p>
+      </div>
+      {% endfor %}
+    </div>
+
     <div class="chat-footer">
       <div class="input-wrapper">
-        <input type="text" placeholder="Your message...">
+        <input name="content" id="chat-message-input" type="text" placeholder="Your message...">
         <button id="send-btn">Send</button>
       </div>
     </div>
+
   </div>
 </div>
-
+{{ room.name|json_script:"json-roomname" }}
+{{ room.id|json_script:"json-roomId" }}
+{{ request.user.username|json_script:"json-username" }}
+{{ message.createTime|json_script:"json-date" }}
   <script type="text/javascript" src="{% static 'js/room.js' %}"></script>
 {% endblock room %}
 

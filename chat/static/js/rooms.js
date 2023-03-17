@@ -1,6 +1,7 @@
 
 const buttons = document.querySelectorAll('.edit-room')
 const btnsDeleteRoom = document.querySelectorAll('.delete-room')
+const btnsJoinRoom = document.querySelectorAll('.enter-room')
 const btnCreateRoom = document.querySelector('.create-room')
 const resetBtns = document.querySelectorAll('.cancel')
 
@@ -99,6 +100,70 @@ buttons.forEach(button => {
 })
 })
 
+const userId = document.getElementById(`user-id`) // get user id tag 
+const currentUser = `http://127.0.0.1:8000/chat/api-auth/user/${userId.textContent}/`
+console.log('userId:', userId)
+console.log('currentUser:', currentUser)
+
+//Join room button handler
+btnsJoinRoom.forEach(button => {
+  button.addEventListener('click', () => {
+    console.log('button.id:', button.id)
+
+    // API handler
+    // retrieve the existing object from the server
+    fetch(`http://127.0.0.1:8000/chat/api-auth/room/${button.id}/`)
+      .then(response => response.json())
+      .then(object => {
+        // modify the necessary attribute value
+        object.users.push(currentUser)
+        // send the updated object back to the server
+        fetch(`http://127.0.0.1:8000/chat/api-auth/room/${button.id}/`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrf_token(),
+          },
+          body: JSON.stringify(object),
+        })
+        .then(response => {
+          if (response.ok) {
+            console.log('Object updated successfully')
+            // go to the related page of the room
+            window.location.href = `http://127.0.0.1:8000/chat/rooms/${button.id}`
+          } else {
+            console.log('Object update failed')
+          }
+        })
+        .catch(error => console.log('Error:', error))
+      })
+      .catch(error => console.log('Error:', error))
+})
+})
+
+const roomIds = document.querySelectorAll('.roomId')
+// is user in a room function
+roomIds.forEach(roomId => {
+  fetch(`http://127.0.0.1:8000/chat/api-auth/room/${roomId.textContent}/`)
+  .then((response) => {
+    const result = response.json()
+    return result;
+  })
+  .then((data) => {
+    console.log('data',data)
+    if (data.users.includes(currentUser)) {
+      console.log('user in')
+      const participant = document.querySelector(`#participant-${roomId.textContent}`)
+      showEditForm(participant)
+    } else {
+      console.log('user out')
+      const participant = document.querySelector(`#no-participant-${roomId.textContent}`)
+      showEditForm(participant)
+    }
+  })
+  .catch(() => { console.log('error') })
+})
+
 //Delete room button handler
 btnsDeleteRoom.forEach(button => {
   button.addEventListener('click', () => {
@@ -132,7 +197,7 @@ btnsDeleteRoom.forEach(button => {
 
 const createForm = document.querySelector(`#create-form`)
 const newRoomNameInput = document.querySelector(`#new-room-name`)
-const userId = document.getElementById(`user-id`) // get user id tag 
+
 
 // console.log(userId.textContent) // get user id
 
@@ -150,8 +215,9 @@ btnCreateRoom.addEventListener('click', () => {
 
   // API handler
   const object = {
-    name: newRoomName,
-    users: [`http://127.0.0.1:8000/chat/api-auth/user/${userId.textContent}/`]
+    name: newRoomName, 
+    users: [currentUser]
+    // users: [`http://127.0.0.1:8000/chat/api-auth/user/${userId.textContent}/`]
   }
   console.log(JSON.stringify(object))
   const options = {

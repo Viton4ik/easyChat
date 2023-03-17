@@ -21,7 +21,6 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -37,6 +36,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # webSocket
+    'channels',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,8 +51,8 @@ INSTALLED_APPS = [
     # my app
     'chat',
 
-    # webSocket
-    'channels',
+    # CORS (Cross-Origin Resource Sharing)
+    'corsheaders',
 
     # site in admin panel
     'django.contrib.sites',
@@ -68,6 +70,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+     #CORS (Cross-Origin Resource Sharing)
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    # ...
 ]
 
 ROOT_URLCONF = 'Project.urls'
@@ -91,7 +98,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Project.wsgi.application'
 
 # WebSocket
-ASGI_APPLICATION = "djangochat.asgi.application"
+ASGI_APPLICATION = 'Project.asgi.application'
 
 # Instead of using something like Redis or similar, we're just going to use the servers memory for the messages
 CHANNEL_LAYERS = {
@@ -162,7 +169,7 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # разрешить обращение к серверу из любых источников
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 SITE_URL = "http://127.0.0.1:8000"
 

@@ -2,12 +2,15 @@
 
 {% load static %}
 
-
 {% block rooms %}
+<em id="user-id" style="display: none;">{{ user.id }}</em>
 <div class="room-list" >
   {% for room in rooms %}
   <div class="room">
   <div id="room-name-container">
+    <span >
+      <em class="roomId" style="display: none;">{{ room.id }}</em>
+    </span>
     <span >Room: <em id="room-name-display-{{ room.id }}">'{{ room }}'</em></span>
      <form id="edit-form-{{ room.id }}" style="display: none;">
       <!-- <label class="hiden-title" for="new-room-name-{{ room.id }}">Put a new name for the room here:</label> -->
@@ -20,15 +23,16 @@
     <div class="hiden-title">Are you sure you want to delete this room?</div>
     <button class="btn" id="confirm-button-{{ room.id }}">Delete</button>
     <button class="btn" id="cancel-button-{{ room.id }}">Cancel</button>
-    
   </div>
   <p></p>
       <button id="{{ room.id }}" class="btn edit-room">Edit Room</button>
       <button id="{{ room.id }}" class="btn delete-room">Delete Room</button>
-      <a href="{% url 'getRoom' room.id %}">
-        <button id="{{ room.id }}" class="btn enter-room">Open Room</button>
-      </a>
+      <!-- <a href="{% url 'getRoom' room.id %}"> -->
+        <button id="{{ room.id }}" class="btn enter-room">Join Room</button>
+      <!-- </a> -->
       <p></p>
+      <span id="participant-{{ room.id }}" class="participant" style="display: none;">Participant</span>
+      <span id="no-participant-{{ room.id }}" class="no-participant" style="display: none;">NOT a participant</span>
   </div>
   {% endfor %}
 </div>

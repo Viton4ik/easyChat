@@ -19,6 +19,8 @@ from rest_framework.response import Response
 import django_filters.rest_framework
 from chat.serializers import *
 
+from django.contrib.auth.decorators import login_required
+
 
 # another way to create room (usless now)
 from rest_framework.generics import CreateAPIView
@@ -207,6 +209,7 @@ def deleteChat(_, pk):
 
 # ====================
 
+@login_required
 def getRooms(request):
     roomWithIds=Chat.objects.filter().values('id', "name",)
     rooms = Chat.objects.all()
@@ -227,7 +230,7 @@ def getRooms(request):
     return render(request, 'chat/rooms.html', {'rooms': rooms, 'roomWithIds': roomWithIds, 'user' : user, 'avatar' : avatar, 'avatar_full_url' : avatar_full_url, })
 
 
-
+@login_required
 def getRoom(request, pk):
     room = Chat.objects.get(pk=pk)
 
@@ -240,4 +243,6 @@ def getRoom(request, pk):
     except:
         avatar = '/media/avatars/default.png'
 
-    return render(request, 'chat/room.html', {'room': room, 'users' : users, 'avatar' : avatar,})
+    messages = Message.objects.filter(chat=room)
+
+    return render(request, 'chat/room.html', {'room': room, 'users' : users, 'avatar' : avatar, 'messages' : messages, })
