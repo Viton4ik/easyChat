@@ -154,9 +154,7 @@ USE_TZ = True
 
 STATIC_ROOT = 'static/'
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static/'),
-# ]
+
 
 # add media
 # MEDIA_ROOT = 'media/'
@@ -175,7 +173,6 @@ SITE_URL = "http://127.0.0.1:8000"
 
 # CSRF_COOKIE_SECURE = False
 
-
 # from rest_framework settings
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
@@ -191,11 +188,6 @@ REST_FRAMEWORK = {
 }
 
 
-
 # the first page after Authentication
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = "/chat/rooms/"
-
-# the first page after log out
-# LOGOUT_REDIRECT_URL = "/login/"
-# ACCOUNT_LOGOUT_REDIRECT_URL = "/login"

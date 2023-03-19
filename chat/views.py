@@ -1,33 +1,32 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 
-from .models import Chat
+from .models import Chat, UserProfile
 from django.contrib.auth.models import User
 
-from pprint import pprint
+import os
 
 from django.conf import settings
 
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseNotAllowed
-
-# from django.urls import reverse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 
 # rest_framework
 import json
 from rest_framework import viewsets
-from rest_framework import permissions            # https://www.django-rest-framework.org/api-guide/permissions/
-from rest_framework.response import Response
+from rest_framework import permissions            
+# https://www.django-rest-framework.org/api-guide/permissions/
+
 import django_filters.rest_framework
 from chat.serializers import *
 
 from django.contrib.auth.decorators import login_required
 
-
-# another way to create room (usless now)
+# another way to create room (is not been used)
 from rest_framework.generics import CreateAPIView
 class ChatCreateView(CreateAPIView):
     queryset = Chat.objects.all()
     serializer_class = ChatSerializer
 #############################
+
 
 # ===== rest_framework =====
 
@@ -45,7 +44,7 @@ class ChatViewset(viewsets.ModelViewSet):
     filterset_fields = ["id", "name", "users",]
     
     # deny all by default using rest_framework 
-    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class MessageViewset(viewsets.ModelViewSet):
@@ -55,6 +54,7 @@ class MessageViewset(viewsets.ModelViewSet):
 
     # set a readOnly by default using rest_framework
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def destroy(self, request, pk, format=None): # set new functionality for delete
         instance = self.get_object()
@@ -68,7 +68,7 @@ class UserProfileSerializer(viewsets.ModelViewSet):
     serializer_class = UserProfileSerializer
 
     # set a IsAuthenticated rights by default using rest_framework
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 class UserViewset(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -79,23 +79,23 @@ class UserViewset(viewsets.ModelViewSet):
     # permission_classes = [permissions.IsAdminUser]
     # set a readOnly
     # permission_classes = [permissions.IsAuthenticated|ReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
 # ==========================
 
 
 # ===== REST API ===== 
-# usles now
+# is not used
 def getChats(_):
     rooms = Chat.objects.all().values(
         'id',
         'name',
     )
-    # преобразовываем QuerySet в список словарей
     rooms_list = list(rooms)
-    # преобразовываем список словарей в JSON-строку
     rooms_json = json.dumps(rooms_list)
     return HttpResponse(content=rooms_json, status=200, content_type='application/json')
-# usles now
+
+# is not used
 def getChat(_, pk):
     rooms = Chat.objects.filter(pk=pk).values(
         'id',
@@ -103,27 +103,8 @@ def getChat(_, pk):
         'users',
         )
     return HttpResponse(content=rooms, status=200)
-# usles now
-def getMessages(_):
-    messages = Message.objects.all().values(
-        'id',
-        'chat',
-        'user',
-        'content',
-        'createTime',
-        )
-    return HttpResponse(content=messages, status=200)
-# usles now
-def getMessage(_, pk):
-    message = Message.objects.filter(pk=pk).values(
-        'id',
-        'chat',
-        'user',
-        'content',
-        'createTime',
-        )
-    return HttpResponse(content=message, status=200)
-# usles now
+
+# is not used
 def createRoom(request):
     if request.method == 'POST':
     # body = json.loads(request.body.decode('utf-8'))
@@ -136,78 +117,25 @@ def createRoom(request):
     else:
         # return HttpResponseNotAllowed(['POST'])
         return JsonResponse({'error': 'Method not allowed'}, status=405)
-# usles now
-def createMessage(request):
-    if request.method == 'POST':
-    # body = json.loads(request.body.decode('utf-8'))
-        body = json.loads(request.body)
-        newMessage = Message.objects.create(
-            chat=body['chat'],
-            user=body['user'],
-            content=body['content'], 
-            )
-        return HttpResponse(content=newMessage, status=201)
-    else:
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
-# usles now
-def editRoom(request, pk):
-    # try:
-    #     body = json.loads(request.body)
-    # except json.JSONDecodeError as e:
-    #     return JsonResponse({'error': 'Invalid JSON: {}'.format(str(e))}, status=400)
 
-
-    body = json.loads(request.body.decode('utf-8'))
-    
-    room = Chat.objects.get(pk=pk)
-    print(body)
-    for attr, value in body.items():
-        setattr(room, attr, value)
-    room.save()
-    data = {'name': room.name, 'users': room.users}
-    return JsonResponse({'data': data}, status=200)
-
-# from rest_framework import status
-# from rest_framework.decorators import api_view
-
-# @api_view(['PUT'])
-# def editRoom(request, pk):
-#     try:
-#         chat = Chat.objects.get(pk=pk)
-#     except Chat.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-
-#     serializer = ChatSerializer(chat, data=request.data)
-#     if serializer.is_valid():
-#         serializer.save()
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# usles now
-def editMessage(request, pk):
-    body = json.loads(request.body)
-    message = Message.objects.get(pk=pk)
-    for attr, value in body.items():
-        setattr(message, attr, value)
-    message.save()
-    data = {'chat': message.chat, 'user': message.user, 'content': message.content,}
-    return JsonResponse({'data': data}, status=200)
-# usles now
+# is not used
 def deleteMessage(_, pk):
     message_ = str(Message.objects.get(pk=pk))
     message = Message.objects.get(pk=pk).delete()
 
-    return HttpResponseRedirect('../messages/')
+    return HttpResponseRedirect('../chats/')
 
 def deleteChat(_, pk):
     Chat.objects.get(pk=pk).delete()
 
     return HttpResponseRedirect('../chats/')
-
-
-
 # ====================
+
+
+# ===== views =====
+def html_404(request):
+    return render(request, '404.html', {
+        }, status=404)
 
 @login_required
 def getRooms(request):
@@ -219,7 +147,6 @@ def getRooms(request):
 
     try:
         userProfile = UserProfile.objects.get(user=user)
-        # print('avatar:', userProfile.avatar.url)
         avatar = userProfile.avatar.url
     except:
         avatar = '/media/avatars/default.png'
@@ -229,12 +156,11 @@ def getRooms(request):
 
     return render(request, 'chat/rooms.html', {'rooms': rooms, 'roomWithIds': roomWithIds, 'user' : user, 'avatar' : avatar, 'avatar_full_url' : avatar_full_url, })
 
-
 @login_required
 def getRoom(request, pk):
     room = Chat.objects.get(pk=pk)
 
-    QuerySetUsers = User.objects.filter(chats=pk).values_list('username', flat=True)
+    QuerySetUsers = User.objects.filter(chats=pk).values('username', 'id')
     users = list(QuerySetUsers)
     
     try:
@@ -246,3 +172,33 @@ def getRoom(request, pk):
     messages = Message.objects.filter(chat=room)
 
     return render(request, 'chat/room.html', {'room': room, 'users' : users, 'avatar' : avatar, 'messages' : messages, })
+
+@login_required
+def userAccount(request, pk):
+    try:
+        userPk = User.objects.get(id=pk)
+        userProfile = UserProfile.objects.get(user=pk)
+    except User.DoesNotExist:
+        return HttpResponseRedirect('../404/') 
+     
+    try:
+        avatar = userProfile.avatar.url
+    except:
+        avatar = '/media/avatars/default.png'
+
+    # to hide buttons for others users
+    isRequestUser = True if request.user.id == pk else False  
+
+    if request.method == 'POST' and request.FILES['avatar']:
+        # save file in 'media' folder
+        file = request.FILES['avatar']
+        filename = file.name
+        with open(os.path.join('media/avatars/', filename), 'wb+') as destination:
+            for chunk in file.chunks():
+                destination.write(chunk)
+        # set new avatar in DB
+        userProfile.avatar = f'avatars/{file.name}'
+        userProfile.save()
+
+    return render(request, 'chat/user.html', {'avatar': avatar, 'userPk': userPk, "userProfile": userProfile, 'isRequestUser': isRequestUser})
+

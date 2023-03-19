@@ -198,9 +198,6 @@ btnsDeleteRoom.forEach(button => {
 const createForm = document.querySelector(`#create-form`)
 const newRoomNameInput = document.querySelector(`#new-room-name`)
 
-
-// console.log(userId.textContent) // get user id
-
 //Create room button handler
 btnCreateRoom.addEventListener('click', () => {
   // show the create form

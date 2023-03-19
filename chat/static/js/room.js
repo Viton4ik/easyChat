@@ -20,21 +20,14 @@ function csrf_token() {
   return csrf_token
 }
 
-// console.log('roomName:',roomName)
-// console.log('roomId:',roomId)
-// console.log('createTime:',createTime)
-
 // get a WebSocket connection
 const chatSocket = new WebSocket(   //'wss://ws.postman-echo.com/raw')
     'ws://'
     // + window.location.host
-    + '127.0.0.1:8001'
-    // + '/ws/'
+    + '127.0.0.1:8001'  //set a different socket
     + '/ws/chat/rooms/'
-    // + roomName
     + roomId
     + '/'
-    // + ''
 );
 
 //onMessage finction
@@ -66,8 +59,7 @@ document.querySelector('#chat-message-input').onkeyup = function(e) {
     }
 }
 
-
-// Enter button handler
+// Enter button handler (another way)
 // const inputField = document.getElementById('chat-message-input')
 // inputField.addEventListener('keyup', function(event) {
 //   if (event.keyCode === 13) { // code for "Enter"
@@ -86,8 +78,6 @@ document.querySelector('#send-btn').onclick = function(e) {
 
   const messageInput = document.querySelector('#chat-message-input')
   const message = messageInput.value
-
-  // console.log('message:',message)
   
   chatSocket.send(JSON.stringify({
     'message': message,
@@ -111,10 +101,9 @@ closeBtn.addEventListener('click', () => {
   chatWindow.style.display = 'none'
 })
 
-
 const forgotRoom = document.querySelector('.forgot-room')
 const userId = document.getElementById(`user-id`) // get user id tag 
-const chatId = document.getElementById(`room-id`) // get user id tag 
+const chatId = document.getElementById(`room-id`) // get chat id tag 
 const currentUser = `http://127.0.0.1:8000/chat/api-auth/user/${userId.textContent}/`
 const currentRoom = `http://127.0.0.1:8000/chat/api-auth/room/${chatId.textContent}/`
 

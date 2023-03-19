@@ -13,7 +13,6 @@
     </span>
     <span >Room: <em id="room-name-display-{{ room.id }}">'{{ room }}'</em></span>
      <form id="edit-form-{{ room.id }}" style="display: none;">
-      <!-- <label class="hiden-title" for="new-room-name-{{ room.id }}">Put a new name for the room here:</label> -->
       <input class="input" type="text" id="new-room-name-{{ room.id }}" name="new-room-name-{{ room.id }}" placeholder="New name for the room...">
       <button class="btn" type="submit">Save</button>
       <button id="{{ room.id }}" class="btn cancel" type="reset">Cancel</button>
@@ -27,9 +26,7 @@
   <p></p>
       <button id="{{ room.id }}" class="btn edit-room">Edit Room</button>
       <button id="{{ room.id }}" class="btn delete-room">Delete Room</button>
-      <!-- <a href="{% url 'getRoom' room.id %}"> -->
-        <button id="{{ room.id }}" class="btn enter-room">Join Room</button>
-      <!-- </a> -->
+      <button id="{{ room.id }}" class="btn enter-room">Join Room</button>
       <p></p>
       <span id="participant-{{ room.id }}" class="participant" style="display: none;">Participant</span>
       <span id="no-participant-{{ room.id }}" class="no-participant" style="display: none;">NOT a participant</span>
@@ -40,7 +37,6 @@
   
   <script type="text/javascript" src="{% static 'js/rooms.js' %}"></script>
 {% endblock rooms %}
-
 
 {% block createRoom %}
 <div class="top-delete-form">
@@ -53,7 +49,6 @@
   <button class="btn create-room">Create Room</button>
 </div>
 {% endblock createRoom %}
-
 
 {% block avatar %}
 <img class="logo" src="{{ avatar }}">

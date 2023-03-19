@@ -6,12 +6,10 @@
 <form method="post">
     {% csrf_token %} 
 
-    <!-- {{ form.as_p }} -->
     <p>Username: {{ form.username }}<h6><em>(Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.)</em></h6></p>
 
     <p>Password: </p>
     <p>{{ form.password1 }}</p>
-
 
     <p> Password confirmation:</p>
     <p>{{ form.password2 }}</p>

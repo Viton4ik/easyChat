@@ -128,16 +128,11 @@
   background-color: #86d6ee;
 }
 
-
 .logo {
-  /* flex-grow: 10;  */
   height: 40px;
   width: 40px;
-  border-radius: 15px;
+  border-radius: 20px;
 }
-
-
-
 
 .chat-container {
   display: flex;
@@ -233,7 +228,6 @@
 }
 
 .input-wrapper button {
-  /* background-color: #4CAF50; */
   background-color: #7cb3ee;
   border: none;
   outline: none;
@@ -245,7 +239,6 @@
 }
 
 .input-wrapper button:hover {
-  /* background-color: #3e8e41; */
   background-color: #142e75;
 }
 
@@ -254,8 +247,6 @@
   border-radius: 20px;
   background-color: #c8d3ee;
   margin-top: 10px;
-  /* max-width: 800px;*/
-  /* word-wrap: break-word;  */
   word-break: break-all;
 }
 
@@ -281,7 +272,6 @@
   }
 } */
 
-
 @keyframes blink {
   50% {
     opacity: 0.75;
@@ -299,3 +289,50 @@
   text-align: left;
   color:rgb(153, 7, 92);
 }
+
+/* user account */
+.profile-container {
+  background-color: #a6ccf5;
+  padding: 30px;
+  margin-top: 20px;
+  box-shadow: 20px 25px 10px rgba(77, 74, 74, 0.5);
+  border-radius: 10px;
+  text-align: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-photo {
+  border-radius: 50%;
+  height: 300px;
+  overflow: hidden;
+  width: 300px;
+  display: flex;
+  align-items: left;
+  }
+  .profile-photo:hover {
+    animation: 1.0s ease-in-out 0s normal none infinite running trambling-animation;
+}
+
+.profile-info {
+  justify-content: space-between;
+  margin: 30px auto;
+  padding: 20px;
+  flex-grow: 1;  
+}
+
+.profile-info h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.profile-info p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+.profile-info em:hover {
+  text-decoration: underline;
+}
+

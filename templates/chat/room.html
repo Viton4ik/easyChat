@@ -20,8 +20,8 @@
 
     <div class="hiden-form" id="confirmation-form" style="display: none;">
       <div class="hiden-title">Are you sure?</div>
-      <button class="btn" id="yes-button">Yes</button>
-      <button class="btn" id="no-button">No</button>
+      <button id="yes-button">Yes</button>
+      <button id="no-button">No</button>
     </div>
 
     <button class="btn forgot-room">Forgot Room</button>
@@ -37,7 +37,9 @@
     <ul class="member-list">
       <li><em>
         {% for user in users %}
-        <p style="color: rgb(53, 12, 148); ">'{{ user }}'</p>
+        <a href="{% url 'userAccount' user.id %}">
+        <p style="color: rgb(53, 12, 148); ">'{{ user.username }}'</p>
+        </a>
         {% endfor %}
       </em></li>
     </ul>
@@ -75,7 +77,6 @@
 {{ message.createTime|json_script:"json-date" }}
   <script type="text/javascript" src="{% static 'js/room.js' %}"></script>
 {% endblock room %}
-
 
 {% block avatar %}
 <img class="logo" src="{{ avatar }}">

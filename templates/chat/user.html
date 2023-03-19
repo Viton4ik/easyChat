@@ -1,0 +1,46 @@
+
+{% extends 'default.html' %}
+
+{% load static %}
+
+{% block user %}
+<em id="userProfile-id" style="display: none;">{{ userProfile.id }}</em>
+<div class="profile-container">
+    <div class="profile-photo">
+        <img src="{{ avatar }}">
+    </div>
+    
+    <div class="profile-info">
+        <p>Name:</p>
+        <h2>'{{ userPk }}'
+            <form id="edit-name" style="display: none;">
+                <input class="input" type="text" id="new-name" name="new-name" placeholder="New name for the user...">
+                <button class="btn" type="submit">Save</button>
+                <button class="btn cancel-name" type="reset">Cancel</button>
+              </form>
+        </h2>
+        <p>e-mail:  <em> {{ userPk.email }}</em></p>
+        <p>joined:  <em> {{ userPk.date_joined }}</em></p>
+        <p style="margin-top: 30px;"></p>
+
+        {% if isRequestUser %}
+        <button class="btn change-ava">Change Avatar</button>
+        <button class="btn change-name">Change Name</button>
+        {% endif %}
+
+        <form style="margin-top: 30px;" id="file-input" style="display: none;" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input id="file-input" class="btn" type="file" name="avatar"><p></p>
+            <button class="btn" type="submit">Update Avatar</button>
+            <button class="btn cancel" type="reset">Cancel</button>
+        </form>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'js/user.js' %}"></script>
+{% endblock %}
+
+{% block avatar %}
+<img class="logo" src="{{ avatar }}">
+{% endblock avatar %}
