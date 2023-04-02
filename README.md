@@ -77,10 +77,10 @@ daphne Project.asgi:application --port 8001
 <img src="https://img.shields.io/static/v1?label=3&message=Edit room name&color=9cf"/>
 <h3 align="center"><img src="https://github.com/Viton4ik/easyChat/blob/master/media/avatars/editRoomName.png"/></h3>
 
-<img src="https://img.shields.io/static/v1?label=4&message=Delete room name&color=9cf"/>
+<img src="https://img.shields.io/static/v1?label=4&message=Delete room&color=9cf"/>
 <h3 align="center"><img src="https://github.com/Viton4ik/easyChat/blob/master/media/avatars/deleteRoom.png"/></h3>
 
-<img src="https://img.shields.io/static/v1?label=5&message=Create room name&color=9cf"/>
+<img src="https://img.shields.io/static/v1?label=5&message=Create room&color=9cf"/>
 <h3 align="center"><img src="https://github.com/Viton4ik/easyChat/blob/master/media/avatars/createRoom.png"/></h3>
 
 <img src="https://img.shields.io/static/v1?label=6&message=Room&color=9cf"/>
