@@ -33,7 +33,7 @@
 - Create a new folder in VS Code/PyCharm/Atom and download the project
 
 ```sh
-https://github.com/Viton4ik/easyChat
+git clone https://github.com/Viton4ik/easyChat.git
 ```
 - Create a virtual environment
 
